@@ -6,7 +6,7 @@ from sqlalchemy import MetaData, Table, Column, Integer, String, TIMESTAMP, Fore
 from src.database import Base
 
 
-class Role(SQLAlchemyBaseUserTable[int], Base):
+class Role(Base):
     __tablename__ = 'role'
 
     id = Column(Integer, primary_key=True)

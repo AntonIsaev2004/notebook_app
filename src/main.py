@@ -10,7 +10,7 @@ from fastapi.encoders import jsonable_encoder
 # from fastapi.exceptions import ValidationError
 from fastapi.responses import JSONResponse
 
-from src.auth.auth import auth_backend
+from src.auth.config import auth_backend
 from src.auth.models import User
 from src.auth.manager import get_user_manager
 from src.auth.schemas import UserRead, UserCreate

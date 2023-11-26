@@ -1,27 +1,13 @@
-from datetime import datetime
-from enum import Enum
-from typing import List, Optional, Union
-
-from fastapi_users import fastapi_users, FastAPIUsers
-from pydantic import BaseModel, Field
-
 from fastapi import FastAPI, Request, status, Depends
-from fastapi.encoders import jsonable_encoder
-# from fastapi.exceptions import ValidationError
-from fastapi.responses import JSONResponse
-
-from src.auth.config import auth_backend
+from src.auth.config import auth_backend, fastapi_users
 from src.auth.models import User
-from src.auth.manager import get_user_manager
 from src.auth.schemas import UserRead, UserCreate
+
+from src.tasks.router import router as router_tasks
+
 
 app = FastAPI(
     title="My App"
-)
-
-fastapi_users = FastAPIUsers[User, int](
-    get_user_manager,
-    [auth_backend],
 )
 
 app.include_router(
@@ -35,6 +21,8 @@ app.include_router(
     prefix="/auth",
     tags=["auth"],
 )
+
+app.include_router(router_tasks)
 
 current_user = fastapi_users.current_user()
 

@@ -6,6 +6,7 @@ from fastapi_users import BaseUserManager, IntegerIDMixin, exceptions, models, s
 from src.config import MANAGER_SECRET
 from src.auth.utils import get_user_db
 from src.auth.models import User
+from src.background_tasks.tasks import send_email_greetings
 
 SECRET = MANAGER_SECRET
 
@@ -15,6 +16,7 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
     verification_token_secret = SECRET
 
     async def on_after_register(self, user: User, request: Optional[Request] = None):
+        send_email_greetings.delay(user.username, user.email)
         print(f"User {user.id} has registered.")
 
     async def create(
